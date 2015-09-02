@@ -1,6 +1,7 @@
 {
     "require": {
         "illuminate/routing": "4.2.17",
-        "illuminate/events": "4.2.17"
+        "illuminate/events": "4.2.17",
+        "illuminate/database": "4.2.17"
     }
 }

@@ -18,6 +18,7 @@ return array(
     'Illuminate\\Http' => array($vendorDir . '/illuminate/http'),
     'Illuminate\\Events' => array($vendorDir . '/illuminate/events'),
     'Illuminate\\Encryption' => array($vendorDir . '/illuminate/encryption'),
+    'Illuminate\\Database' => array($vendorDir . '/illuminate/database'),
     'Illuminate\\Cookie' => array($vendorDir . '/illuminate/cookie'),
     'Illuminate\\Container' => array($vendorDir . '/illuminate/container'),
     'Illuminate\\Cache' => array($vendorDir . '/illuminate/cache'),
