@@ -72,3 +72,30 @@ class ProvaController extends Illuminate\Routing\Controller {
 
 }
 ```
+
+## Database support
+
+Larapress supports Eloquent models. All model classes in `models` directory inside your root theme folder will be automatically loaded and will be available in your controllers/closure-routes. Let's say you define a `Post` class in `<your-theme>/models/Post.php``
+
+```php
+<?php
+
+use Illuminate\Database\Eloquent\Model as Eloquent;
+
+class Post extends Eloquent {
+    public $timestamps = false;
+}
+```
+
+Now you can query your Wordpress posts (don't worry, database connection and table prefix is automatically set using Wordpress configuration). To get all your posts just use the `Post` model like you would normally do in Laravel
+
+```php
+<?php
+
+class PostsController extends Illuminate\Routing\Controller {
+
+    public function index()
+    {
+        return Post::where(['post_type' => 'post'])->get();
+    }
+```
