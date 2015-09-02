@@ -50,6 +50,8 @@ class TestController extends Illuminate\Routing\Controller {
 }
 ```
 
+## Accessing the request object
+
 If you want to access the request object, simply pull in the Laravel `Request` class
 
 ```php
