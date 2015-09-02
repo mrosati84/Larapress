@@ -33,7 +33,9 @@ Controllers are located in the `controllers` directory in your theme folder. All
 ```php
 <?php
 
-// Illuminate\Routing\Controller class namespace path must be explicit since we are not inside a real Laravel context
+// Illuminate\Routing\Controller class namespace
+// path must be explicit since we are not inside
+// a real Laravel context
 
 class TestController extends Illuminate\Routing\Controller {
 
