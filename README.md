@@ -6,8 +6,8 @@ To use it, simply copy it in your plugins directory and enable it in Wordpress p
 
 ```php
 <?php
-    $app['router']->get('/sample-route', 'MyController@index');
-    $app['router']->post('/sample-route', 'MyController@othermethod');
+    $app['router']->get('/sample-route', 'TestController@index');
+    $app['router']->post('/sample-route', 'TestController@othermethod');
 ```
 
 You can also use closure-style routes
