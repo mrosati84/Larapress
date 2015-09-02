@@ -1,6 +1,12 @@
 <?php
 /*
 Plugin Name: Larapress
+Plugin URI: https://github.com/mrosati84/Larapress
+Version: 0.0.1
+Description: Use Wordpress with the power of the Laravel Framework
+Author: Matteo Rosati <rosati.matteo@gmail.com>
+Author URI: http://mrosati.it
+License: GPL
 */
 
 require_once 'vendor/autoload.php';
