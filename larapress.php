@@ -48,6 +48,9 @@ function init_larapress()
     with(new Illuminate\Events\EventServiceProvider($app))->register();
     with(new Illuminate\Routing\RoutingServiceProvider($app))->register();
 
+    require __DIR__ . '/models/Post.php';
+    require __DIR__ . '/models/Postmeta.php';
+
     if (file_exists($basePath . 'routes.php')) {
         try {
             require $basePath . 'routes.php';
