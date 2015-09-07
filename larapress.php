@@ -21,8 +21,6 @@ class Larapress
 
     protected $app = null;
 
-    protected $context = null;
-
     public function __construct()
     {
         add_action('init', array($this, 'init'));
@@ -35,8 +33,6 @@ class Larapress
         $this->setupApplication();
         $this->setupRouting();
 
-
-        $this->context =  Larapress\Context\Context::getInstance();
         // add_action('pre_get_posts', array($this->context,'preGetPosts'));
 
     }
@@ -64,13 +60,11 @@ class Larapress
         $basePath = str_finish(get_template_directory(), '/');
         $controllersDirectory = $basePath . 'controllers';
         $modelsDirectory = $basePath . 'models';
-        $contextDirectory = $basePath . 'context';
 
         Illuminate\Support\ClassLoader::register();
         Illuminate\Support\ClassLoader::addDirectories(array(
             $controllersDirectory,
             $modelsDirectory,
-            $contextDirectory,
         ));
     }
 
@@ -142,7 +136,7 @@ class Larapress
             throw new Larapress\Exceptions\ControllerNotFoundException();
         }
 
-        if(!is_callable($controller_name."::".$action)) {
+        if (!is_callable($controller_name."::".$action)) {
             throw new Larapress\Exceptions\ControllerMethodNotFoundException();
         }
 
