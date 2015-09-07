@@ -74,7 +74,7 @@ class Larapress
         Illuminate\Support\Facades\Facade::setFacadeApplication($this->app);
 
         $this->app['app'] = $this->app;
-        $this->app['env'] = 'production';
+        $this->app['env'] = (defined(LARAPRESS_ENV)) ? LARAPRESS_ENV : 'development';
 
         with(new Illuminate\Events\EventServiceProvider($this->app))->register();
         with(new Illuminate\Routing\RoutingServiceProvider($this->app))->register();
