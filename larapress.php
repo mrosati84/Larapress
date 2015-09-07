@@ -15,60 +15,6 @@ require_once 'vendor/illuminate/support/Illuminate/Support/helpers.php';
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-// $capsule = new Capsule;
-
-// $capsule->addConnection(array(
-//     'driver'    => 'mysql',
-//     'host'      => DB_HOST,
-//     'database'  => DB_NAME,
-//     'username'  => DB_USER,
-//     'password'  => DB_PASSWORD,
-//     'charset'   => 'utf8',
-//     'collation' => 'utf8_unicode_ci',
-//     'prefix'    => $table_prefix
-// ));
-
-// $capsule->bootEloquent();
-
-function init_larapress()
-{
-    // $basePath = str_finish(get_template_directory(), '/');
-    // $controllersDirectory = $basePath . 'controllers';
-    // $modelsDirectory = $basePath . 'models';
-    // $contextDirectory = $basePath . 'context';
-
-    // Illuminate\Support\ClassLoader::register();
-    // Illuminate\Support\ClassLoader::addDirectories(array(
-    //     $controllersDirectory,
-    //     $modelsDirectory,
-    //     $contextDirectory,
-    // ));
-
-    // $app = new Illuminate\Container\Container;
-    // Illuminate\Support\Facades\Facade::setFacadeApplication($app);
-
-    // $app['app'] = $app;
-    // $app['env'] = 'production';
-
-    // with(new Illuminate\Events\EventServiceProvider($app))->register();
-    // with(new Illuminate\Routing\RoutingServiceProvider($app))->register();
-
-    // if (file_exists($basePath . 'routes.php')) {
-    //     try {
-    //         require $basePath . 'routes.php';
-
-    //         $request = Illuminate\Http\Request::createFromGlobals();
-    //         $response = $app['router']->dispatch($request);
-
-    //         $response->send();
-
-    //         exit(); // exit to skip other wordpress output
-    //     } catch (NotFoundHttpException $e) {
-    //         // just ignore 404 errors here
-    //     }
-    // }
-}
-
 class Larapress
 {
     protected $capsule = null;
@@ -158,10 +104,32 @@ class Larapress
         }
     }
 
-
     public function getApp()
     {
         return $this->app;
+    }
+
+    /**
+     * removes from an array of parameters, the parameters that are not needed to call a specific controller action
+     *
+     * @param  Controller $controller
+     * @param  string $action
+     * @param  array $params
+     * @return array
+     */
+    protected function reflectParameters($controller, $action, $params)
+    {
+        $reflection = new ReflectionClass($controller);
+        $method = new \ReflectionMethod($controller, $action);
+
+        $passed_params = array();
+        foreach ($method->getParameters() as $method_param) {
+            if (isset($params[$method_param->getName()])) {
+                $passed_params[$method_param->getName()] = $params[$method_param->getName()];
+            }
+        }
+
+        return $passed_params;
     }
 
     public function render($controller, $params = array())
@@ -174,17 +142,16 @@ class Larapress
             throw new Larapress\Exceptions\ControllerNotFoundException();
         }
 
+        if(!is_callable($controller_name."::".$action)) {
+            throw new Larapress\Exceptions\ControllerMethodNotFoundException();
+        }
+
         $controller = $this->getApp()->make($controller_name);
-        return $controller->callAction($action, $params);
+
+        $passed_params = $this->reflectParameters($controller, $action, $params);
+
+        return $controller->callAction($action, $passed_params);
     }
 }
 
 $Larapress = new Larapress();
-
-
-
-//$larapressContext = Larapress\Context\Context::getInstance();
-
-        //add_action('init', 'init_larapress');
-
-//add_action('pre_get_posts', array($larapressContext,'preGetPosts'));
